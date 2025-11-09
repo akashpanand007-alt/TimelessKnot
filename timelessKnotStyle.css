@@ -1,0 +1,208 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: sans-serif;
+    transition: background-color .5s ease-in-out;
+}
+.layer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* ------------------------------------ */
+/* STEP 1: INITIAL STATE & ANIMATION SETUP */
+/* ------------------------------------ */
+
+    /* Target all visible drawing elements (path and rect with class st12) */
+    path.st12, rect.st12, rect.st11 {
+      /* Ensure the line is visible during the draw effect */
+      stroke: #acc6a4; 
+      stroke-width: 4px; /* Make the stroke visible */
+      
+      /* Crucial: Hide the interior fill until the drawing is complete */
+      fill: none;
+      /* SVA Stroke Dash Animation Properties */
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      
+      /* Apply the animation to start the drawing */
+      animation: draw 2s ease-out forwards;
+      
+      /* Set initial opacity to 0 to prevent a flash of the outline */
+      opacity: 0;
+    }
+
+    /* Target the white rectangular shape */
+    rect.st11 {
+      stroke: #fff;
+    }
+
+    /* ------------------------------------ */
+    /* STEP 2: SEQUENTIAL TIMING */
+    /* ------------------------------------ */
+
+    /* The main bird-like shape */
+    #svg_6 { animation-delay: 0s;
+    animation-duration: 4s; } 
+    /* The horizontal top line of the frame */
+    #svg_28 { animation-delay: 0.4s;
+      animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    animation-duration: 7; }
+    /* The right vertical line of the frame (rect) */
+    #svg_29 { animation-delay: 0.8s; }
+    /* The left vertical line of the frame (path) */
+    #svg_30 { animation-delay: 1.2s; }
+    /* The small white rectangle */
+    #svg_31 { animation-delay: 1.6s; }
+
+
+    /* ------------------------------------ */
+    /* STEP 3: KEYFRAMES & FILL REVEAL */
+    /* ------------------------------------ */
+
+    /* Smooth draw keyframes */
+    @keyframes draw {
+      0% {
+        stroke-dashoffset: 1000;
+        opacity: 1; /* Instantly make the stroke visible at start */
+      }
+      50% {
+        stroke-dashoffset: 0; /* Complete the drawing effect */
+        opacity: 1;
+      }
+      100% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+        /* For the final look, reveal the fill color */
+       /* Use the fill color defined by its class (.st12 or .st11) */
+        stroke-width: 0.5px; /* Reduce stroke width to match the original logo feel */
+        fill: #acc6a4;
+      }
+    }
+     @keyframes flash-fade {
+    /* Start: Fully transparent */
+    0% {
+        opacity: 0; 
+    }
+    /* Middle: Fully visible */
+    50% { 
+        opacity: 1; 
+    }
+    /* End: Fully transparent again */
+    100% {
+        opacity: 0; 
+    }
+}
+.preloader{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100vh;
+}
+.preloaderWebsiteTitle{
+    color: #acc6a4;
+    animation: flash-fade 4s ease-in-out forwards;
+    animation-delay: 4.5s;
+    opacity: 0;
+}
+.preloaderHeading{
+    font-size: clamp(22px, 3.8vw, 48px);
+    cursor: default;
+}
+.preloaderDescription{
+    font-size: 15px;
+    animation: flash-fade 3s ease-in-out forwards;
+    opacity: 0;
+    animation-delay: 5s;
+    cursor: default;
+}
+body.animate-complete {
+    background-color: #acc6a4; 
+}
+
+/* 2. Logo color change to white */
+body.animate-complete path.st12,
+body.animate-complete rect.st12 {
+    stroke: #fff !important; 
+    fill: #fff !important; /* Change the inner fill to white */
+}
+
+/* 3. White Frame color change (st11) */
+body.animate-complete rect.st11 {
+    stroke: #fff !important; /* Keep the stroke white */
+    fill: none !important; /* Keep the interior of the frame clear */
+}
+
+/* 4. Text color change to white */
+body.animate-complete .preloaderWebsiteTitle,
+body.animate-complete .preloaderDescription {
+    color: #fff;
+}
+@media(max-width:330px){
+    .preloaderDescription{
+        padding: 5px;
+    }
+}
+.navBar{
+    background-color: #acc6a4;
+    display: none;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;  
+    color: white;   
+}
+.navHeading{
+    font-size: 32px;
+    line-height: 30px;
+    font-weight: 100;
+}
+.navHyperLinkDiv{
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    font-size: 20px;
+    line-height: 18px;
+    
+}
+.navHeadingHyperLink{
+    text-decoration: none;
+    color: white;
+    transition: color .6s cubic-bezier(.24, .43, .15, .97),transform .8s ease;
+    position: relative;
+    letter-spacing: 1px;
+    padding: 3px;
+    z-index: 9999;
+}
+.navHeadingHyperLink::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: .4px;
+    background-color: white;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .7s cubic-bezier(.24, .43, .15, .97);
+}
+.navHeadingHyperLink:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+.navHeadingHyperLink::after {
+    transform-origin: right;
+}
+.contactHyperLink{
+    text-decoration: none;
+    color: white;
+    margin-left: 30px;
+    font-size: 22px;
+    line-height: 20px;
+    border: 1px white solid;
+    padding: 15px 35px;
+}
